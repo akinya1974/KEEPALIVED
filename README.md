@@ -5,8 +5,9 @@
 
 1. `Запустил сервис на двух нодах`
 
-"
-Конфиг на двух нодах:
+## Конфиг на двух нодах:
+
+```sh
 vrrp_instance failover_test {
     state MASTER
     interface enp0s8
@@ -21,7 +22,8 @@ vrrp_instance failover_test {
         192.168.1.50 dev enp0s8 label enp0s8:vip
     }
 }
-"
+```
+
 
 ![Status](https://github.com/akinya1974/KEEPALIVED/blob/main/JPG/STATUS.jpg)
 
