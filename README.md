@@ -1,11 +1,11 @@
 # Домашнее задание к занятию 10.1 «Keepalived/vrrp» - `Акиньшин С.Г.`
 
 
-### Задание 1
+## Задание 1
 
 1. `Запустил сервис на двух нодах`
 
-## Конфиг на двух нодах:
+### Конфиг на мастер ноде:
 
 ```sh
 vrrp_instance failover_test {
@@ -15,22 +15,46 @@ vrrp_instance failover_test {
     priority 110
     advert_int 4
     authentication {
-    auth_type AH
+    auth_type PASS
     auth_pass 1111
     }
-    virtual_ipaddress {
+    unicast_peer {
+    192.168.0.1
+    }
+        virtual_ipaddress {
         192.168.1.50 dev enp0s8 label enp0s8:vip
     }
-}
+    }
+```
+
+### Конфиг на Backup ноде:
+
+```sh
+vrrp_instance failover_test {
+    state BACKUP
+    interface enp0s8
+    virtual_router_id 10
+    priority 110
+    advert_int 4
+    authentication {
+    auth_type PASS
+    auth_pass 1111
+    }
+    unicast_peer {
+    192.168.0.2
+    }
+        virtual_ipaddress {
+        192.168.1.50 dev enp0s8 label enp0s8:vip
+    }
+    }
+
 ```
 
 
 ![Status](https://github.com/akinya1974/KEEPALIVED/blob/main/JPG/STATUS.jpg)
 
-![IP ADD](https://github.com/akinya1974/KEEPALIVED/blob/main/JPG/IP%20ADD.jpg)
 
-
-### Задание 2
+## Задание 2
 
 1. `Пользоваться Wireshark пока не научился, но сделал тест, который нашел на просторах нета, попеременно выключал и включал сеть в нодах и на оставшейся в сети ноде появлялся вип адрес! Пингуются как вип адрес, созданный  Keepalived так и адрес хоста! Прикольная штука)))`
 
